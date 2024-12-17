@@ -2,7 +2,12 @@
 export default {
 	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
 	theme: {
-		extend: {},
+		extend: {
+			backgroundImage: {
+				'bg-hero': "url('/public/background.svg')",
+				'mesh': "url('/public/test-background.svg')"
+			}
+		},
 	},
 	plugins: [],
 }
