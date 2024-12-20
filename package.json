@@ -30,5 +30,9 @@
     "tailwindcss": "^3.4.16",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.7.2"
+  },
+  "devDependencies": {
+    "flowbite": "^2.5.2",
+    "flowbite-svelte": "^0.47.4"
   }
 }

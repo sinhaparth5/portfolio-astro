@@ -12,8 +12,15 @@
     }
 
     .psText {
-        @apply text-8xl text-white font-bold;
+        @apply text-8xl text-white font-bold dm-sans-bold;
     }
+}
+
+.dm-sans-bold {
+  font-family: "DM Sans", serif;
+  font-optical-sizing: auto;
+  font-weight: bold;
+  font-style: normal;
 }
 
 @layer base {
