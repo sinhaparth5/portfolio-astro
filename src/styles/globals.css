@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .psCon {
+        @apply container mx-auto flex bg-mesh h-full bg-no-repeat;
+    }
+
+    .psConInner {
+        @apply flex justify-center items-center;
+    }
+
+    .psText {
+        @apply text-8xl text-white font-bold;
+    }
+}
