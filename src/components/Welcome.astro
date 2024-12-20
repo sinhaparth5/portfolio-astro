@@ -1,12 +1,17 @@
 ---
 import { FloatingDockDemo } from "./FloatingDemo";
 import { TimelineDemo } from "./TimelineDemo";
+import Network  from "./svelte/Network.svelte";
 ---
 
-<div class="psCon">
-	<div class="psConInner">
+<div class="psCon flex-column">
+	<div class="psConInner flex-col">
 		<div class="psText">
 			Parth Sinha
+		</div>
+		<div class="psConInner">
+			<h1 class="text-white mr-8">Neural Network Visualization</h1>
+ 			<Network />
 		</div>
 	</div>
 </div>
