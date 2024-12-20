@@ -1,7 +1,59 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import { MediumService } from '../services/mediumService';
+
+const mediumService = new MediumService();
+const username = 'parth-sinha';
+const articles = await mediumService.getArticles(username);
+const hasArticles = articles.length > 0;
 ---
 
 <Layout title="Blogs">
-    Blogs
+    <main class="container mx-auto px-4 py-8">
+        <div class="max-w-6xl mx-auto">
+            <h1 class="text-4xl font-bold mb-8 text-white">My Medium Articles</h1>
+
+            {hasArticles ? (
+                <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {articles.map(article => (
+                        <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                            <a href={article.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="block p-6 h-full group"
+                            aria-label={`Read ${article.title}`}
+                            >
+                                <h2 class="text-xl font-semibold mb-2 text-gray-800 group-hover:text-blue-600 transition-colors">{article.title}</h2>
+                                <time datetime={article.pubDate} class="text-sm text-gray-600 mb-4 block">{article.formattedDate}</time>
+                                {article.categories.length > 0 && (
+                                    <div class="flex flex-wrap gap-2 mt-3">
+                                        {article.categories.map(category => (
+                                            <span class="px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded-full">{category}</span>
+                                        ))}
+                                    </div>
+                                )}
+                            </a>
+                        </article>
+                    ))}
+                </div>
+            ) : (
+            <div class="text-center py-12 bg-gray-50 rounded-lg">
+                <p class="text-gray-600">
+                    No articles found. Please check the username or try again later.
+                </p>
+            </div>
+            )}
+        </div>
+    </main>
 </Layout>
+
+<style>
+    /* Optional: Add any custom styles here */
+    article {
+      transition: transform 0.2s ease-in-out;
+    }
+    
+    article:hover {
+      transform: translateY(-2px);
+    }
+  </style>
