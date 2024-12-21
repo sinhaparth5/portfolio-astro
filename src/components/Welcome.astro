@@ -1,19 +1,8 @@
 ---
-import SeparatorLine from "./designs/Seperator";
-import Network  from "./svelte/Network.svelte";
+import { HomePageGrid } from "./designs/HomePageGrid";
+
 ---
 
-<div class="psCon flex-column">
-	<div class="psConInner flex-col">
-		<div class="psConInner">
-			<SeparatorLine client:only="react" />
-		</div>
-		<div class="psText">
-			Parth Sinha
-		</div>
-		<div class="psConInner">
-			<h1 class="text-white mr-8">Neural Network Visualization</h1>
- 			<Network />
-		</div>
-	</div>
+<div class="container mx-auto mt-4">
+	<HomePageGrid client:only="react" />
 </div>

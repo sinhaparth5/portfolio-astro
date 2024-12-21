@@ -7,6 +7,26 @@
       @apply bg-black scroll-smooth [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500;
     }
 
+    .psNav {
+      @apply container mx-auto flex border-b-2	border-white pb-2;
+    }
+
+    .psNavInner {
+      @apply flex justify-between items-center w-full flex-col sm:flex-row;
+    }
+
+    .psLogo {
+      @apply dm-sans-bold text-white text-4xl mt-2 bg-mesh;
+    }
+
+    .psNavLinks {
+      @apply flex justify-between items-center;
+    }
+
+    .psNavLinkUL {
+      @apply flex gap-8 text-white text-xl font-bold dm-sans-bold;
+    }
+
     .psCon {
         @apply container mx-auto flex bg-mesh h-full bg-no-repeat;
     }
@@ -17,6 +37,10 @@
 
     .psText {
         @apply text-8xl text-white font-bold dm-sans-bold;
+    }
+
+    .psContainer {
+      @apply container mx-auto px-4 py-8;
     }
 }
 
