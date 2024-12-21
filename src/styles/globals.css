@@ -16,7 +16,7 @@
     }
 
     .psLogo {
-      @apply dm-sans-bold text-white text-4xl mt-2 bg-mesh;
+      @apply dm-sans-bold text-white text-4xl mt-2;
     }
 
     .psNavLinks {
