@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer components {
+    .psBody {
+      @apply bg-black scroll-smooth [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500;
+    }
+
     .psCon {
         @apply container mx-auto flex bg-mesh h-full bg-no-repeat;
     }
@@ -20,6 +24,20 @@
   font-family: "DM Sans", serif;
   font-optical-sizing: auto;
   font-weight: bold;
+  font-style: normal;
+}
+
+.dm-sans-normal {
+  font-family: "DM Sans", serif;
+  font-optical-sizing: auto;
+  font-weight: normal;
+  font-style: normal;
+}
+
+.dm-sans-semibold {
+  font-family: "DM Sans", serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
   font-style: normal;
 }
 

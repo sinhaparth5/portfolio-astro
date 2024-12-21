@@ -11,7 +11,7 @@ const hasArticles = articles.length > 0;
 <Layout title="Blogs">
     <main class="container mx-auto px-4 py-8">
         <div class="max-w-6xl mx-auto">
-            <h1 class="text-4xl font-bold mb-8 text-white">My Medium Articles</h1>
+            <h1 class="text-4xl font-bold mb-8 text-white dm-sans-bold">My Medium Articles</h1>
 
             {hasArticles ? (
                 <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -23,12 +23,12 @@ const hasArticles = articles.length > 0;
                             class="block p-6 h-full group"
                             aria-label={`Read ${article.title}`}
                             >
-                                <h2 class="text-xl font-semibold mb-2 text-gray-800 group-hover:text-blue-600 transition-colors">{article.title}</h2>
-                                <time datetime={article.pubDate} class="text-sm text-gray-600 mb-4 block">{article.formattedDate}</time>
+                                <h2 class="text-xl font-semibold mb-2 text-gray-800 group-hover:text-blue-600 transition-colors dm-sans-bold">{article.title}</h2>
+                                <time datetime={article.pubDate} class="text-sm text-gray-600 mb-4 block dm-sans-normal">{article.formattedDate}</time>
                                 {article.categories.length > 0 && (
                                     <div class="flex flex-wrap gap-2 mt-3">
                                         {article.categories.map(category => (
-                                            <span class="px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded-full">{category}</span>
+                                            <span class="px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded-full dm-sans-normal">{category}</span>
                                         ))}
                                     </div>
                                 )}

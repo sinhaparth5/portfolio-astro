@@ -10,26 +10,26 @@ const repositories: Repository[] = await githubService.getPublicRepositories(use
 <Layout title="Projects">
     <main class="container mx-auto px-4 py-8">
         <div class="max-w-6xl mx-auto">
-            <h1 class="text-4xl font-bold mb-8 text-white">My Projects</h1>
+            <h1 class="text-4xl font-bold mb-8 text-white dm-sans-bold">My Projects</h1>
             <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {repositories.map(repo => (
                     <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300">
                         <a href={repo.url} target="_blank" rel="noopener noreferrer" class="block p-6 h-full">
-                            <h2 class="text-xl font-semibold text-gray-800 hover:text-blue-600 transition-colors mb-2">{repo.name}</h2>
+                            <h2 class="text-xl font-semibold text-gray-800 hover:text-blue-600 transition-colors mb-2 dm-sans-semibold">{repo.name}</h2>
                             {repo.description && (
-                                <p class="text-gray-600 mb-4 line-clamp-2">{repo.description}</p>
+                                <p class="text-gray-600 mb-4 line-clamp-2 dm-sans-normal">{repo.description}</p>
                             )}
                             <div class="space-y-4">
                                 <div class="flex flex-wrap gap-2">
                                     {repo.language && (
-                                        <span class="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">{repo.language}</span>
+                                        <span class="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full dm-sans-normal">{repo.language}</span>
                                     )}
                                     {repo.topics?.slice(0, 3).map(topic => (
-                                        <span class="px-2 py-1 text-xs bg-gray-100 text-gray-800 rounded-full">{topic}</span>
+                                        <span class="px-2 py-1 text-xs bg-gray-100 text-gray-800 rounded-full dm-sans-normal">{topic}</span>
                                     ))}
                                 </div>
                                 <div class="flex items-center justify-between text-sm text-gray-500">
-                                    <div class="flex items-center gap-1">
+                                    <div class="flex items-center gap-1 dm-sans-normal">
                                         {repo.stars > 0 && (
                                             <>
                                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -39,7 +39,7 @@ const repositories: Repository[] = await githubService.getPublicRepositories(use
                                             </>
                                         )}
                                     </div>
-                                    <time datetime={repo.updatedAt}>Updated: {repo.updatedAt}</time>
+                                    <time datetime={repo.updatedAt} class="dm-sans-normal">Updated: {repo.updatedAt}</time>
                                 </div>
                             </div>
                         </a>
@@ -48,7 +48,7 @@ const repositories: Repository[] = await githubService.getPublicRepositories(use
             </div>
             {repositories.length === 0 && (
                 <div class="text-center py-12 bg-gray-30 rounded-lg">
-                    <p class="text-gray-600">No Public repositories found. Please check the username or try again later.</p>
+                    <p class="text-gray-600 dm-sans-normal">No Public repositories found. Please check the username or try again later.</p>
                 </div>
             )}
         </div>
