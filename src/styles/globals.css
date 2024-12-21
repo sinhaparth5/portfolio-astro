@@ -8,7 +8,7 @@
     }
 
     .psNav {
-      @apply container mx-auto flex border-b-2	border-white pb-2;
+      @apply container mx-auto flex border-b-2	border-white pb-2 z-30 relative;
     }
 
     .psNavInner {
