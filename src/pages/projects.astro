@@ -1,6 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import { GitHubService, type Repository } from "@/services/githubService";
+import HeaderText from "../components/svelte/HeaderText.svelte";
 
 const githubService = new GitHubService();
 const username = 'sinhaparth5';
@@ -10,7 +11,7 @@ const repositories: Repository[] = await githubService.getPublicRepositories(use
 <Layout title="Projects">
     <main class="container mx-auto px-4 py-8">
         <div class="max-w-6xl mx-auto">
-            <h1 class="text-4xl font-bold mb-8 text-white dm-sans-bold">My Projects</h1>
+            <HeaderText title="Projects" width="20%" />
             <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {repositories.map(repo => (
                     <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300">

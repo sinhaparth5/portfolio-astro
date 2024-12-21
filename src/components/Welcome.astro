@@ -1,8 +1,7 @@
 ---
+import { HeroBanner } from "./designs/HeroBanner";
 import { HomePageGrid } from "./designs/HomePageGrid";
 
 ---
 
-<div class="container mx-auto mt-4">
-	<HomePageGrid client:only="react" />
-</div>
+<HeroBanner client:only="react" />

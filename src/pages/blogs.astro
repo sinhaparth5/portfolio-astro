@@ -1,6 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import { MediumService } from '../services/mediumService';
+import HeaderText from "../components/svelte/HeaderText.svelte";
 
 const mediumService = new MediumService();
 const username = 'parth-sinha';
@@ -11,7 +12,7 @@ const hasArticles = articles.length > 0;
 <Layout title="Blogs">
     <main class="psContainer">
         <div class="max-w-6xl mx-auto">
-            <h1 class="text-4xl font-bold mb-8 text-white dm-sans-bold">My Medium Articles</h1>
+            <HeaderText client:load title="Medium Articles" width="30%"/>
 
             {hasArticles ? (
                 <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

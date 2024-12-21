@@ -11,5 +11,13 @@ import svelte from '@astrojs/svelte';
 export default defineConfig({
   integrations: [react(), tailwind({
     applyBaseStyles: false,
-  }), svelte()]
+  }), svelte()],
+  vite: {
+    optimizeDeps: {
+      exclude: ['react-compiler-runtime']
+    },
+    ssr: {
+      noExternal: ['react-compiler-runtime']
+    }
+  }
 });
