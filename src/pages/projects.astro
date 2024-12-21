@@ -9,47 +9,71 @@ const repositories: Repository[] = await githubService.getPublicRepositories(use
 ---
 
 <Layout title="Projects">
-    <main class="container mx-auto px-4 py-8">
+    <main class="psContainer bg-proj-mesh bg-repeat-y h-screen w-screen backdrop-blur-md bg-[length:95%_95%]">
         <div class="max-w-6xl mx-auto">
-            <HeaderText title="Projects"/>
+            <HeaderText client:load title="GitHub Projects"/>
+
             <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {repositories.map(repo => (
-                    <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300">
-                        <a href={repo.url} target="_blank" rel="noopener noreferrer" class="block p-6 h-full">
-                            <h2 class="text-xl font-semibold text-gray-800 hover:text-blue-600 transition-colors mb-2 dm-sans-semibold">{repo.name}</h2>
+                    <article class="bg-black/40 backdrop-blur-sm border border-gray-800 rounded-lg overflow-hidden 
+                                  transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.4)]
+                                  hover:shadow-[0_8px_30px_rgba(0,0,0,0.6)]">
+                        <a href={repo.url}
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="block p-6 h-full group"
+                           aria-label={`View ${repo.name} repository`}
+                        >
+                            <h2 class="text-xl font-semibold mb-2 text-white group-hover:text-blue-400 transition-colors dm-sans-bold">
+                                {repo.name}
+                            </h2>
+                            
                             {repo.description && (
-                                <p class="text-gray-600 mb-4 line-clamp-2 dm-sans-normal">{repo.description}</p>
+                                <p class="text-gray-400 mb-4 line-clamp-2 dm-sans-normal">
+                                    {repo.description}
+                                </p>
                             )}
+                            
                             <div class="space-y-4">
                                 <div class="flex flex-wrap gap-2">
                                     {repo.language && (
-                                        <span class="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full dm-sans-normal">{repo.language}</span>
+                                        <span class="px-2 py-1 text-xs bg-gray-800/50 text-gray-300 rounded-full dm-sans-normal border border-gray-700 shadow-lg">
+                                            {repo.language}
+                                        </span>
                                     )}
                                     {repo.topics?.slice(0, 3).map(topic => (
-                                        <span class="px-2 py-1 text-xs bg-gray-100 text-gray-800 rounded-full dm-sans-normal">{topic}</span>
+                                        <span class="px-2 py-1 text-xs bg-gray-800/50 text-gray-300 rounded-full dm-sans-normal border border-gray-700 shadow-lg">
+                                            {topic}
+                                        </span>
                                     ))}
                                 </div>
-                                <div class="flex items-center justify-between text-sm text-gray-500">
-                                    <div class="flex items-center gap-1 dm-sans-normal">
+                                
+                                <div class="flex items-center justify-between text-sm text-gray-400">
+                                    <div class="flex items-center gap-1">
                                         {repo.stars > 0 && (
                                             <>
                                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                                                 </svg>
-                                                <span>{repo.stars}</span>
+                                                <span class="dm-sans-normal">{repo.stars}</span>
                                             </>
                                         )}
                                     </div>
-                                    <time datetime={repo.updatedAt} class="dm-sans-normal">Updated: {repo.updatedAt}</time>
+                                    <time datetime={repo.updatedAt} class="dm-sans-normal">
+                                        Updated: {repo.updatedAt}
+                                    </time>
                                 </div>
                             </div>
                         </a>
                     </article>
                 ))}
             </div>
+
             {repositories.length === 0 && (
-                <div class="text-center py-12 bg-gray-30 rounded-lg">
-                    <p class="text-gray-600 dm-sans-normal">No Public repositories found. Please check the username or try again later.</p>
+                <div class="text-center py-12 bg-black/40 backdrop-blur-sm rounded-lg border border-gray-800 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
+                    <p class="text-gray-400 dm-sans-normal">
+                        No public repositories found. Please check the username or try again later.
+                    </p>
                 </div>
             )}
         </div>
@@ -58,11 +82,12 @@ const repositories: Repository[] = await githubService.getPublicRepositories(use
 
 <style>
     article {
-        transition: transform 0.2s ease-in-out;
+        transition: transform 0.2s ease-in-out, background-color 0.3s ease;
     }
-
+    
     article:hover {
         transform: translateY(-2px);
+        @apply bg-black/60;
     }
 
     .line-clamp-2 {

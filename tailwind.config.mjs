@@ -5,9 +5,8 @@ export default {
 	theme: {
     	extend: {
     		backgroundImage: {
-    			'bg-hero': "url('/public/background.svg')",
-    			mesh: "url('/public/test-background.svg')",
-				'proj-mesh': "url('/mesh-background.svg')"
+				'proj-mesh': "url('/mesh-background.svg')",
+				'blogs-mesh': "url('/mesh-background-blogs.svg')"
     		},
     		borderRadius: {
     			lg: 'var(--radius)',

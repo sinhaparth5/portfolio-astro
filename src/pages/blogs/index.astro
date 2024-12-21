@@ -1,0 +1,75 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { MediumService } from '../../services/mediumService';
+import HeaderText from "../../components/svelte/HeaderText.svelte";
+
+const mediumService = new MediumService();
+const username = 'parth-sinha';
+const articles = await mediumService.getArticles(username);
+const hasArticles = articles.length > 0;
+---
+
+<Layout title="Blogs">
+    <main class="psContainer bg-blogs-mesh bg-repeat-y h-screen w-screen backdrop-blur-md bg-[length:95%_95%]">
+        <div class="max-w-6xl mx-auto">
+            <HeaderText client:load title="Medium Articles"/>
+
+            {hasArticles ? (
+                <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {articles.map(article => (
+                        <article class="bg-black/40 backdrop-blur-sm border border-gray-800 rounded-lg overflow-hidden 
+                                      transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.4)]
+                                      hover:shadow-[0_8px_30px_rgba(0,0,0,0.6)]">
+                            <a href={article.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="block p-6 h-full group"
+                            aria-label={`Read ${article.title}`}
+                            >
+                                <h2 class="text-xl font-semibold mb-2 text-white group-hover:text-blue-400 transition-colors dm-sans-bold">
+                                    {article.title}
+                                </h2>
+                                
+                                <time datetime={article.pubDate} class="text-sm text-gray-400 mb-4 block dm-sans-normal">
+                                    {article.formattedDate}
+                                </time>
+                                
+                                {article.categories.length > 0 && (
+                                    <div class="flex flex-wrap gap-2 mt-3">
+                                        {article.categories.map(category => (
+                                            <span class="px-2 py-1 text-xs bg-gray-800/50 text-gray-300 rounded-full dm-sans-normal border border-gray-700 shadow-lg">
+                                                {category}
+                                            </span>
+                                        ))}
+                                    </div>
+                                )}
+                            </a>
+                        </article>
+                    ))}
+                </div>
+            ) : (
+            <div class="text-center py-12 bg-black/40 backdrop-blur-sm rounded-lg border border-gray-800 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
+                <p class="text-gray-400">
+                    No articles found. Please check the username or try again later.
+                </p>
+            </div>
+            )}
+        </div>
+    </main>
+</Layout>
+
+<style>
+    article {
+      transition: transform 0.2s ease-in-out, background-color 0.3s ease;
+    }
+    
+    article:hover {
+      transform: translateY(-2px);
+      @apply bg-black/60;
+    }
+
+    /* Optional: Add smooth transition for the shadow */
+    article {
+      transition: all 0.3s ease;
+    }
+</style>
