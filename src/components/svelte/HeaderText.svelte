@@ -1,9 +1,8 @@
 <script lang="ts">
     export let title: string = '';
-    export let width: string = '';
 </script>
 
-<div class="h-[60px] flex justify-center items-center relative mb-8" style="width: {width};">
+<div class={`h-[60px] flex justify-center items-center relative mb-8 sm:w-[30%] w-full`}>
 
     <!-- Underlying Gradient Div-->
     <div class="absolute blur w-full h-full inset-0 rounded-lg bg-gradient-to-br from-pink-500 via-cyan-500 to-violet-500"></div>

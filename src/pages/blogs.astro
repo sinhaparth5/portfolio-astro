@@ -3,58 +3,118 @@ import Layout from "@/layouts/Layout.astro";
 import { MediumService } from '../services/mediumService';
 import HeaderText from "../components/svelte/HeaderText.svelte";
 
+const ARTICLES_PER_PAGE = 9;
+const currentPage = Number(Astro.url.searchParams.get('page') || '1');
 const mediumService = new MediumService();
 const username = 'parth-sinha';
-const articles = await mediumService.getArticles(username);
+
+// Get all articles
+const allArticles = await mediumService.getArticles(username);
+
+// Calculate pagination
+const totalArticles = allArticles.length;
+const totalPages = Math.ceil(totalArticles / ARTICLES_PER_PAGE);
+const startIndex = (currentPage - 1) * ARTICLES_PER_PAGE;
+const articles = allArticles.slice(startIndex, startIndex + ARTICLES_PER_PAGE);
 const hasArticles = articles.length > 0;
 ---
 
 <Layout title="Blogs">
-    <main class="psContainer">
+    <main class="psContainer bg-proj-mesh bg-no-repeat h-screen w-screen backdrop-blur-md bg-[length:95%_95%]">
         <div class="max-w-6xl mx-auto">
-            <HeaderText client:load title="Medium Articles" width="30%"/>
+            <HeaderText client:load title="Medium Articles"/>
 
             {hasArticles ? (
-                <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    {articles.map(article => (
-                        <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                            <a href={article.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="block p-6 h-full group"
-                            aria-label={`Read ${article.title}`}
-                            >
-                                <h2 class="text-xl font-semibold mb-2 text-gray-800 group-hover:text-blue-600 transition-colors dm-sans-bold">{article.title}</h2>
-                                <time datetime={article.pubDate} class="text-sm text-gray-600 mb-4 block dm-sans-normal">{article.formattedDate}</time>
-                                {article.categories.length > 0 && (
-                                    <div class="flex flex-wrap gap-2 mt-3">
-                                        {article.categories.map(category => (
-                                            <span class="px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded-full dm-sans-normal">{category}</span>
-                                        ))}
-                                    </div>
-                                )}
-                            </a>
-                        </article>
-                    ))}
-                </div>
+                <>
+                    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
+                        {articles.map(article => (
+                            <article class="bg-black/40 backdrop-blur-sm border border-gray-800 rounded-lg overflow-hidden 
+                                          transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.4)]
+                                          hover:shadow-[0_8px_30px_rgba(0,0,0,0.6)]">
+                                <a href={article.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="block p-6 h-full group"
+                                aria-label={`Read ${article.title}`}
+                                >
+                                    <h2 class="text-xl font-semibold mb-2 text-white group-hover:text-blue-400 transition-colors dm-sans-bold">
+                                        {article.title}
+                                    </h2>
+                                    
+                                    <time datetime={article.pubDate} class="text-sm text-gray-400 mb-4 block dm-sans-normal">
+                                        {article.formattedDate}
+                                    </time>
+                                    
+                                    {article.categories.length > 0 && (
+                                        <div class="flex flex-wrap gap-2 mt-3">
+                                            {article.categories.map(category => (
+                                                <span class="px-2 py-1 text-xs bg-gray-800/50 text-gray-300 rounded-full dm-sans-normal border border-gray-700 shadow-lg">
+                                                    {category}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    )}
+                                </a>
+                            </article>
+                        ))}
+                    </div>
+
+                    {/* Pagination */}
+                    {totalPages > 1 && (
+                        <div class="flex justify-center gap-2 mt-8 mb-8">
+                            {/* Previous Page */}
+                            {currentPage > 1 && (
+                                <a href={`?page=${currentPage - 1}`} 
+                                   class="px-4 py-2 bg-black/40 backdrop-blur-sm border border-gray-800 rounded-lg 
+                                          text-white hover:bg-black/60 transition-all duration-300">
+                                    Previous
+                                </a>
+                            )}
+                            
+                            {/* Page Numbers */}
+                            {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNum => (
+                                <a href={`?page=${pageNum}`}
+                                   class={`px-4 py-2 rounded-lg backdrop-blur-sm border transition-all duration-300 
+                                          ${currentPage === pageNum 
+                                            ? 'bg-blue-600/40 border-blue-500 text-white' 
+                                            : 'bg-black/40 border-gray-800 text-white hover:bg-black/60'}`}>
+                                    {pageNum}
+                                </a>
+                            ))}
+                            
+                            {/* Next Page */}
+                            {currentPage < totalPages && (
+                                <a href={`?page=${currentPage + 1}`}
+                                   class="px-4 py-2 bg-black/40 backdrop-blur-sm border border-gray-800 rounded-lg 
+                                          text-white hover:bg-black/60 transition-all duration-300">
+                                    Next
+                                </a>
+                            )}
+                        </div>
+                    )}
+                </>
             ) : (
-            <div class="text-center py-12 bg-gray-50 rounded-lg">
-                <p class="text-gray-600">
-                    No articles found. Please check the username or try again later.
-                </p>
-            </div>
+                <div class="text-center py-12 bg-black/40 backdrop-blur-sm rounded-lg border border-gray-800 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
+                    <p class="text-gray-400">
+                        No articles found. Please check the username or try again later.
+                    </p>
+                </div>
             )}
         </div>
     </main>
 </Layout>
 
 <style>
-    /* Optional: Add any custom styles here */
     article {
-      transition: transform 0.2s ease-in-out;
+        transition: transform 0.2s ease-in-out, background-color 0.3s ease;
     }
     
     article:hover {
-      transform: translateY(-2px);
+        transform: translateY(-2px);
+        @apply bg-black/60;
     }
-  </style>
+
+    article {
+        transition: all 0.3s ease;
+    }
+</style>

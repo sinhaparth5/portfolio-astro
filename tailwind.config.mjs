@@ -6,7 +6,8 @@ export default {
     	extend: {
     		backgroundImage: {
     			'bg-hero': "url('/public/background.svg')",
-    			mesh: "url('/public/test-background.svg')"
+    			mesh: "url('/public/test-background.svg')",
+				'proj-mesh': "url('/mesh-background.svg')"
     		},
     		borderRadius: {
     			lg: 'var(--radius)',
