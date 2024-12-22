@@ -9,13 +9,14 @@ const repositories: Repository[] = await githubService.getPublicRepositories(use
 ---
 
 <Layout title="Projects">
-    <main class="psContainer bg-proj-mesh bg-repeat-y h-screen w-screen backdrop-blur-md bg-[length:95%_95%]">
-        <div class="max-w-6xl mx-auto">
+    <main class="psContainer relative h-screen w-screen">
+        <div class="absolute inset-0 bg-proj-mesh bg-repeat-y bg-[length:95%_95%] opacity-90"></div>
+        <div class="relative z-10 max-w-6xl mx-auto">
             <HeaderText client:load title="GitHub Projects"/>
 
             <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {repositories.map(repo => (
-                    <article class="bg-black/40 backdrop-blur-sm border border-gray-800 rounded-lg overflow-hidden 
+                    <article class="glass-card border border-gray-800 rounded-lg overflow-hidden 
                                   transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.4)]
                                   hover:shadow-[0_8px_30px_rgba(0,0,0,0.6)]">
                         <a href={repo.url}
@@ -37,12 +38,12 @@ const repositories: Repository[] = await githubService.getPublicRepositories(use
                             <div class="space-y-4">
                                 <div class="flex flex-wrap gap-2">
                                     {repo.language && (
-                                        <span class="px-2 py-1 text-xs bg-gray-800/50 text-gray-300 rounded-full dm-sans-normal border border-gray-700 shadow-lg">
+                                        <span class="glass-tag px-2 py-1 text-xs text-gray-300 rounded-full dm-sans-normal border border-gray-700 shadow-lg">
                                             {repo.language}
                                         </span>
                                     )}
                                     {repo.topics?.slice(0, 3).map(topic => (
-                                        <span class="px-2 py-1 text-xs bg-gray-800/50 text-gray-300 rounded-full dm-sans-normal border border-gray-700 shadow-lg">
+                                        <span class="glass-tag px-2 py-1 text-xs text-gray-300 rounded-full dm-sans-normal border border-gray-700 shadow-lg">
                                             {topic}
                                         </span>
                                     ))}
@@ -70,7 +71,7 @@ const repositories: Repository[] = await githubService.getPublicRepositories(use
             </div>
 
             {repositories.length === 0 && (
-                <div class="text-center py-12 bg-black/40 backdrop-blur-sm rounded-lg border border-gray-800 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
+                <div class="glass-card text-center py-12 rounded-lg border border-gray-800 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
                     <p class="text-gray-400 dm-sans-normal">
                         No public repositories found. Please check the username or try again later.
                     </p>
@@ -81,13 +82,50 @@ const repositories: Repository[] = await githubService.getPublicRepositories(use
 </Layout>
 
 <style>
+    /* Base glass card styles */
+    .glass-card {
+        background-color: rgba(0, 0, 0, 0.4);
+        -webkit-backdrop-filter: blur(8px);
+        backdrop-filter: blur(8px);
+        transition: all 0.3s ease;
+    }
+
+    /* Glass tag styles */
+    .glass-tag {
+        background-color: rgba(31, 41, 55, 0.5);
+        -webkit-backdrop-filter: blur(4px);
+        backdrop-filter: blur(4px);
+    }
+
     article {
         transition: transform 0.2s ease-in-out, background-color 0.3s ease;
     }
     
     article:hover {
         transform: translateY(-2px);
-        @apply bg-black/60;
+        background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    /* Safari-specific fixes */
+    @supports (-webkit-backdrop-filter: none) {
+        .glass-card {
+            background-color: rgba(0, 0, 0, 0.75);
+        }
+        
+        .glass-tag {
+            background-color: rgba(31, 41, 55, 0.75);
+        }
+    }
+
+    /* Fallback for browsers that don't support backdrop-filter */
+    @supports not ((backdrop-filter: blur(8px)) or (-webkit-backdrop-filter: blur(8px))) {
+        .glass-card {
+            background-color: rgba(0, 0, 0, 0.85);
+        }
+        
+        .glass-tag {
+            background-color: rgba(31, 41, 55, 0.85);
+        }
     }
 
     .line-clamp-2 {
