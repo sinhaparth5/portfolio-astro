@@ -10,14 +10,15 @@ const hasArticles = articles.length > 0;
 ---
 
 <Layout title="Blogs">
-    <main class="psContainer bg-blogs-mesh bg-repeat-y h-screen w-screen backdrop-blur-md bg-[length:95%_95%]">
-        <div class="max-w-6xl mx-auto">
+    <main class="psContainer relative h-screen w-screen">
+        <div class="absolute inset-0 bg-blogs-mesh bg-repeat-y bg-[length:95%_95%] opacity-90"></div>
+        <div class="relative z-10 max-w-6xl mx-auto">
             <HeaderText client:load title="Medium Articles"/>
 
             {hasArticles ? (
                 <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                     {articles.map(article => (
-                        <article class="bg-black/40 backdrop-blur-sm border border-gray-800 rounded-lg overflow-hidden 
+                        <article class="glass-card border border-gray-800 rounded-lg overflow-hidden 
                                       transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.4)]
                                       hover:shadow-[0_8px_30px_rgba(0,0,0,0.6)]">
                             <a href={article.link}
@@ -37,7 +38,7 @@ const hasArticles = articles.length > 0;
                                 {article.categories.length > 0 && (
                                     <div class="flex flex-wrap gap-2 mt-3">
                                         {article.categories.map(category => (
-                                            <span class="px-2 py-1 text-xs bg-gray-800/50 text-gray-300 rounded-full dm-sans-normal border border-gray-700 shadow-lg">
+                                            <span class="glass-tag px-2 py-1 text-xs text-gray-300 rounded-full dm-sans-normal border border-gray-700 shadow-lg">
                                                 {category}
                                             </span>
                                         ))}
@@ -48,7 +49,7 @@ const hasArticles = articles.length > 0;
                     ))}
                 </div>
             ) : (
-            <div class="text-center py-12 bg-black/40 backdrop-blur-sm rounded-lg border border-gray-800 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
+            <div class="glass-card text-center py-12 rounded-lg border border-gray-800 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
                 <p class="text-gray-400">
                     No articles found. Please check the username or try again later.
                 </p>
@@ -59,17 +60,49 @@ const hasArticles = articles.length > 0;
 </Layout>
 
 <style>
+    /* Base glass card styles */
+    .glass-card {
+        background-color: rgba(0, 0, 0, 0.4);
+        -webkit-backdrop-filter: blur(8px);
+        backdrop-filter: blur(8px);
+        transition: all 0.3s ease;
+    }
+
+    /* Glass tag styles */
+    .glass-tag {
+        background-color: rgba(31, 41, 55, 0.5);
+        -webkit-backdrop-filter: blur(4px);
+        backdrop-filter: blur(4px);
+    }
+
     article {
-      transition: transform 0.2s ease-in-out, background-color 0.3s ease;
+        transition: transform 0.2s ease-in-out, background-color 0.3s ease;
     }
     
     article:hover {
-      transform: translateY(-2px);
-      @apply bg-black/60;
+        transform: translateY(-2px);
+        background-color: rgba(0, 0, 0, 0.6);
     }
 
-    /* Optional: Add smooth transition for the shadow */
-    article {
-      transition: all 0.3s ease;
+    /* Safari-specific fixes */
+    @supports (-webkit-backdrop-filter: none) {
+        .glass-card {
+            background-color: rgba(0, 0, 0, 0.75);
+        }
+        
+        .glass-tag {
+            background-color: rgba(31, 41, 55, 0.75);
+        }
+    }
+
+    /* Fallback for browsers that don't support backdrop-filter */
+    @supports not ((backdrop-filter: blur(8px)) or (-webkit-backdrop-filter: blur(8px))) {
+        .glass-card {
+            background-color: rgba(0, 0, 0, 0.85);
+        }
+        
+        .glass-tag {
+            background-color: rgba(31, 41, 55, 0.85);
+        }
     }
 </style>
