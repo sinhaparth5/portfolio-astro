@@ -8,6 +8,11 @@ const { title } = Astro.props;
 import NavBar from "../components/svelte/NavBar.svelte";
 import Footer from "../components/svelte/Footer.svelte";
 import "../styles/globals.css";
+
+
+const description = "Final year Oxford Brookes student on a mission to make GPUs cry with CUDA programming 🚀. Currently diving into AI & ML while trying not to train models that take over the world. Full-stack developer by day, parallel processing enthusiast by night. Let's build something awesome together!";
+const image = "https://pbs.twimg.com/profile_images/1615716904844333062/-7ja18HM_400x400.jpg";
+const url = "https://pksinha.co.uk"; 
 ---
 
 <!doctype html>
@@ -17,6 +22,81 @@ import "../styles/globals.css";
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
+
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content={description}>
+		<meta name="author" content="Parth Sinha">
+		<meta name="keywords" content="CUDA Programming, AI, ML, Full Stack Development, Oxford Brookes, Software Engineering, Machine Learning, Parallel Computing, Student Developer, Parth Sinha">
+
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website">
+		<meta property="og:url" content={url}>
+		<meta property="og:title" content={title}>
+		<meta property="og:description" content={description}>
+		<meta property="og:image" content={image}>
+
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image">
+		<meta property="twitter:url" content={url}>
+		<meta property="twitter:title" content={title}>
+		<meta property="twitter:description" content={description}>
+		<meta property="twitter:image" content={image}>
+
+		<!-- Theme Color for browsers -->
+		<meta name="theme-color" content="#000000">
+
+		<!-- Apple Touch Icon -->
+		<link rel="apple-touch-icon" href="/path/to/apple-touch-icon.png">
+
+		<!-- Favicon -->
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+		<!-- Canonical URL -->
+		<link rel="canonical" href={url}>
+
+		<!-- Robots -->
+		<meta name="robots" content="index, follow">
+
+		<!-- Additional Meta Tags for SEO -->
+		<meta name="google" content="notranslate">
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="application-name" content={title}>
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<meta name="apple-mobile-web-app-title" content={title}>
+
+		<!-- Schema.org for Google -->
+		<script type="application/ld+json">
+		{
+		"@context": "https://schema.org",
+		"@type": "Person",
+		"name": "Parth Sinha",
+		"url": "${url}",
+		"image": "${image}",
+		"sameAs": [
+			"https://github.com/sinhaparth5",
+			"https://gitlab.com/sinhaparth5",
+			"https://parth-sinha.medium.com/",
+			"https://x.com/sinhaparth555",
+			"https://www.instagram.com/sinhaparth5/",
+			"https://buymeacoffee.com/parthsinha"
+		],
+		"jobTitle": "Full Stack Developer",
+		"worksFor": {
+			"@type": "Organization",
+			"name": "Oxford Brookes University",
+			"url": "https://www.brookes.ac.uk/"
+		},
+		"description": "${description}"
+		}
+		</script>
+
+		<!-- PWA manifest -->
+		<link rel="manifest" href="/manifest.json">
+
+		<!-- Google Fonts DM Sans -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
