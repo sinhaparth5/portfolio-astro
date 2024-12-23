@@ -31,64 +31,70 @@ export interface Repository {
 
 export class GitHubService {
   private cache: Cache;
-  private readonly CACHE_KEY = 'github-public-repos';
+  private readonly CACHE_KEY_PREFIX = 'github-repos';
   private readonly CACHE_TTL = 3600000; // 1 hour
 
   constructor() {
-    this.cache = Cache.getInstance();
+      this.cache = Cache.getInstance();
+  }
+
+  private getCacheKey(username: string): string {
+      return `${this.CACHE_KEY_PREFIX}-${username}`;
   }
 
   async getPublicRepositories(username: string): Promise<Repository[]> {
-    try {
-      // Try to get from cache first
-      const cached = await this.cache.get<Repository[]>(this.CACHE_KEY);
-      if (cached) {
-        console.log('Returning cached public repositories');
-        return cached;
-      }
-
-      // If not in cache, fetch from GitHub API
-      const response = await fetch(
-        `https://api.github.com/users/${username}/repos?type=public&sort=updated`,
-        {
-          headers: {
-            'Accept': 'application/vnd.github.v3+json'
+      try {
+          const cacheKey = this.getCacheKey(username);
+          
+          // Try to get from cache first
+          const cached = await this.cache.get<Repository[]>(cacheKey);
+          if (cached) {
+              console.log(`Returning cached repositories for ${username}`);
+              return cached;
           }
-        }
-      );
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch repositories');
+          // If not in cache, fetch from GitHub API
+          const response = await fetch(
+              `https://api.github.com/users/${username}/repos?type=public&sort=updated`,
+              {
+                  headers: {
+                      'Accept': 'application/vnd.github.v3+json'
+                  }
+              }
+          );
+
+          if (!response.ok) {
+              throw new Error(`Failed to fetch repositories: ${response.statusText}`);
+          }
+
+          const repos: GitHubApiRepo[] = await response.json();
+
+          // Transform data
+          const publicRepos: Repository[] = repos
+              .filter(repo => !repo.private)
+              .map(repo => ({
+                  id: repo.id,
+                  name: repo.name,
+                  description: repo.description,
+                  url: repo.html_url,
+                  homepage: repo.homepage,
+                  stars: repo.stargazers_count,
+                  language: repo.language,
+                  topics: repo.topics,
+                  updatedAt: new Date(repo.updated_at).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                  })
+              }));
+
+          // Store in cache with username-specific key
+          await this.cache.set(cacheKey, publicRepos);
+
+          return publicRepos;
+      } catch (error) {
+          console.error('Error fetching public repositories:', error);
+          return [];
       }
-
-      const repos: GitHubApiRepo[] = await response.json();
-
-      // Filter for public repos and transform data
-      const publicRepos: Repository[] = repos
-        .filter(repo => !repo.private)
-        .map(repo => ({
-          id: repo.id,
-          name: repo.name,
-          description: repo.description,
-          url: repo.html_url,  // Transform html_url to url
-          homepage: repo.homepage,
-          stars: repo.stargazers_count,  // Transform stargazers_count to stars
-          language: repo.language,
-          topics: repo.topics,
-          updatedAt: new Date(repo.updated_at).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          })
-        }));
-
-      // Store in cache
-      await this.cache.set(this.CACHE_KEY, publicRepos);
-
-      return publicRepos;
-    } catch (error) {
-      console.error('Error fetching public repositories:', error);
-      return [];
-    }
   }
 }

@@ -12,19 +12,26 @@ interface MediumArticle {
 export class MediumService {
     private parser: Parser;
     private cache: Cache;
-    private readonly CACHE_KEY = 'medium-articles';
-    private readonly CACHE_TTL = 3600000;
+    private readonly CACHE_KEY_PREFIX = 'medium-articles';
+    private readonly CACHE_TTL = 3600000; // 1 hour
 
     constructor() {
         this.parser = new Parser();
         this.cache = Cache.getInstance();
     }
 
+    private getCacheKey(username: string): string {
+        return `${this.CACHE_KEY_PREFIX}-${username}`;
+    }
+
     async getArticles(username: string): Promise<MediumArticle[]> {
         try {
-            const cached = await this.cache.get<MediumArticle[]>(this.CACHE_KEY);
+            const cacheKey = this.getCacheKey(username);
+            
+            // Try to get from cache first
+            const cached = await this.cache.get<MediumArticle[]>(cacheKey);
             if (cached) {
-                console.log('Returning cached articles');
+                console.log(`Returning cached articles for ${username}`);
                 return cached;
             }
 
@@ -41,7 +48,8 @@ export class MediumService {
                 categories: item.categories || [],
             }));
 
-            await this.cache.set(this.CACHE_KEY, articles);
+            // Store in cache with username-specific key
+            await this.cache.set(cacheKey, articles);
 
             return articles;
         } catch (error) {

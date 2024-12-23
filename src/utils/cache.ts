@@ -1,6 +1,7 @@
 interface CacheData<T> {
     data: T;
     timestamp: number;
+    expiresAt: number;
 }
 
 export class Cache {
@@ -11,6 +12,8 @@ export class Cache {
     private constructor(ttl: number = 3600000) {
         this.cacheMap = new Map();
         this.ttl = ttl;
+        // Periodically clean expired cache entries
+        setInterval(() => this.cleanExpiredCache(), ttl);
     }
 
     public static getInstance(): Cache {
@@ -21,21 +24,62 @@ export class Cache {
     }
 
     async get<T>(key: string): Promise<T | null> {
-        const cached = this.cacheMap.get(key);
-        if(!cached) return null;
+        try {
+            const cached = this.cacheMap.get(key);
+            if (!cached) {
+                return null;
+            }
 
-        if (Date.now() - cached.timestamp > this.ttl) {
-            this.cacheMap.delete(key)
+            // Check if cache has expired
+            if (Date.now() >= cached.expiresAt) {
+                this.cacheMap.delete(key);
+                return null;
+            }
+
+            return cached.data;
+        } catch (error) {
+            console.error(`Cache get error for key ${key}:`, error);
             return null;
         }
-
-        return cached.data;
     }
 
     async set<T>(key: string, data: T): Promise<void> {
-        this.cacheMap.set(key, {
-            data,
-            timestamp: Date.now()
-        });
+        try {
+            const timestamp = Date.now();
+            this.cacheMap.set(key, {
+                data,
+                timestamp,
+                expiresAt: timestamp + this.ttl
+            });
+        } catch (error) {
+            console.error(`Cache set error for key ${key}:`, error);
+        }
+    }
+
+    private cleanExpiredCache(): void {
+        const now = Date.now();
+        for (const [key, value] of this.cacheMap.entries()) {
+            if (now >= value.expiresAt) {
+                this.cacheMap.delete(key);
+            }
+        }
+    }
+
+    // Utility method to get cache stats
+    public getCacheStats(): { size: number; keys: string[] } {
+        return {
+            size: this.cacheMap.size,
+            keys: Array.from(this.cacheMap.keys())
+        };
+    }
+
+    // Method to manually clear specific cache
+    public clearCache(key: string): void {
+        this.cacheMap.delete(key);
+    }
+
+    // Method to clear all cache
+    public clearAllCache(): void {
+        this.cacheMap.clear();
     }
 }
