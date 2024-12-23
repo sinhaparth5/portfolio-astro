@@ -92,7 +92,7 @@
     }
 
     .psProjectCon {
-      @apply relative z-10 max-w-6xl mx-auto;
+      @apply relative z-10 max-w-6xl mx-auto pb-16;
     }
 
     .psGrid {
@@ -140,7 +140,7 @@
     }
 
     .psBlogConInner {
-      @apply relative z-10 max-w-6xl mx-auto;
+      @apply relative z-10 max-w-6xl mx-auto pb-16;
     }
 
     .psCardDate {
@@ -149,6 +149,42 @@
 
     .psCardXT {
       @apply flex flex-wrap gap-2 mt-3;
+    }
+
+    .psGitHubCon {
+      @apply container mx-auto mt-8 text-white pb-16;
+    }
+
+    .psGithubConInner {
+      @apply grid min-h-[140px] w-full place-items-center overflow-x-scroll rounded-lg p-6 lg:overflow-visible;
+    }
+
+    .psGitHubImg {
+      @apply object-center w-full rounded-lg h-[600px];
+    }
+    
+    .psFooterCon {
+      @apply fixed bottom-0 left-0 right-0 z-50 w-full bg-black/70 backdrop-blur-sm border-t border-white/10 py-4;
+    }
+
+    .psFooterConInner {
+      @apply container mx-auto px-4;
+    }
+
+    .psFooterConInner2 {
+      @apply flex flex-col md:flex-row justify-between items-center gap-4;
+    }
+    
+    .psFooterText {
+      @apply text-white/90 text-sm;
+    }
+
+    .psFooterConLink {
+      @apply flex items-center space-x-6;
+    }
+
+    .psFooterLink {
+      @apply text-white/80 hover:text-white transition-colors duration-300;
     }
 }
 

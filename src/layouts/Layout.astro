@@ -6,6 +6,7 @@ export interface Props {
 const { title } = Astro.props;
 
 import NavBar from "../components/svelte/NavBar.svelte";
+import Footer from "../components/svelte/Footer.svelte";
 import "../styles/globals.css";
 ---
 
@@ -24,6 +25,7 @@ import "../styles/globals.css";
 	<body class="psBody">
 		<NavBar class:load />
 		<slot />
+		<Footer client:load />
 	</body>
 </html>
 
