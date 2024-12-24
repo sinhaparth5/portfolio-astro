@@ -176,7 +176,7 @@
     }
     
     .psFooterText {
-      @apply text-white/90 text-sm;
+      @apply text-white/90 text-sm dm-sans-normal;
     }
 
     .psFooterConLink {
