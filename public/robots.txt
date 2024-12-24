@@ -1,0 +1,28 @@
+# robots.txt for portfolio website
+
+# Allow all robots to index public content
+User-agent: *
+
+# Allow main pages and meta information
+Allow: /$
+Allow: /about$
+Allow: /projects$
+Allow: /contact$
+Allow: /blog$
+Allow: /sitemap.xml$
+
+# Protect specific directories/files
+Disallow: /admin/
+Disallow: /private/
+Disallow: /drafts/
+Disallow: /temp/
+Disallow: /*.json$
+Disallow: /*.js$
+Disallow: /*.css$
+Disallow: /*?*
+
+# Crawl speed settings
+Crawl-delay: 10
+
+# Sitemap location
+Sitemap: https://beta.pksinha.co.uk/sitemap.xml
