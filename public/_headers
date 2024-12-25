@@ -1,0 +1,36 @@
+# Enforce HTTPS (extended duration and preloading)
+Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+
+# Prevent MIME type sniffing
+X-Content-Type-Options: nosniff
+
+# Enhanced XSS protection with reporting
+X-XSS-Protection: 1; mode=block; report=<your-reporting-endpoint>
+
+# Strict clickjacking prevention
+X-Frame-Options: DENY
+Frame-Options: DENY
+
+# Zero referrer information
+Referrer-Policy: no-referrer
+
+# Comprehensive permissions control
+Permissions-Policy: accelerometer=(), ambient-light-sensor=(), autoplay=(), battery=(), camera=(), cross-origin-isolated=(), display-capture=(), document-domain=(), encrypted-media=(), execution-while-not-rendered=(), execution-while-out-of-viewport=(), fullscreen=(), geolocation=(), gyroscope=(), keyboard-map=(), magnetometer=(), microphone=(), midi=(), navigation-override=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(), usb=(), web-share=(), xr-spatial-tracking=()
+
+# Strict isolation policies
+Cross-Origin-Embedder-Policy: require-corp
+Cross-Origin-Opener-Policy: same-origin-allow-popups
+Cross-Origin-Resource-Policy: same-site
+
+# Cache control
+Cache-Control: no-store, max-age=0
+Pragma: no-cache
+
+# Additional security headers
+Clear-Site-Data: "*"
+X-Permitted-Cross-Domain-Policies: none
+X-Download-Options: noopen
+X-DNS-Prefetch-Control: off
+
+# Custom Headers
+X-Owner: Parth Sinha
